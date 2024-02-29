@@ -26,7 +26,7 @@ int main(int argc, char **argv) {
 	struct termios options;
 
 	/* If opening the serial port failed */
-	if ( (serial_fd = open("/dev/serial0", O_RDWR | O_NDELAY | O_NOCTTY)) < 0) {
+	if ( (serial_fd = open(serial_dev_path, O_RDWR | O_NDELAY | O_NOCTTY)) < 0) {
 		fprintf(stderr, "Failed to open the serial port\n");
 		return -1;
 	}
