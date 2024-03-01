@@ -32,6 +32,10 @@ int main(int argc, char **argv) {
 	}
 
 	/* Set the settings for the serial port */
+	if (0 != tcgetattr(serial_fd, &options)) {
+		fprintf(stderr, "Failed to get port attributes\n");
+		return -1;
+	}
 	options.c_cflag = B9600 | CS8 | CLOCAL | CREAD;
 	options.c_iflag = IGNPAR; // Ignore parity errors
 	options.c_oflag = 0; // Don't set output flags
@@ -39,12 +43,27 @@ int main(int argc, char **argv) {
 
 	/* Apply the settings for the serial port */
 	tcflush(serial_fd, TCIOFLUSH);
-	tcsetattr(serial_fd, TCSANOW, &options);
+	if (0 != tcsetattr(serial_fd, TCSANOW, &options)) {
+		fprintf(stderr, "Failed to set port attributes\n");
+		return -1;
+	}
 
 	/* select() variables */
 	fd_set wset;
 	fd_set rset;
 	int maxfd;
+
+
+	/* NOT working on receiving end (usb side of usb-uart adapter)
+	 * idea: download gnu screen, grep -R "word" . the repo searching for
+	 * similar code and then seeing what they do?
+	 */
+	/* b screen.c:909
+	 * Perhaps
+	 * fcntl(0, F_GETFL, 0); ? as in screen.c:730
+	 * Perhaps
+	 * tcgetattr() to automatically get the stuff?
+	 */
 
 	/* select() initialization */
 	FD_ZERO(&wset);
