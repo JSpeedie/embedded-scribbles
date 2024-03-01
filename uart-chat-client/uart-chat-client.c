@@ -26,7 +26,8 @@ int main(int argc, char **argv) {
 	struct termios options;
 
 	/* If opening the serial port failed */
-	if ( (serial_fd = open(serial_dev_path, O_RDWR | O_NDELAY | O_NOCTTY)) < 0) {
+	// if ( (serial_fd = open(serial_dev_path, O_RDWR | O_NDELAY | O_NOCTTY)) < 0) {
+	if ( (serial_fd = open(serial_dev_path, O_RDWR)) < 0) {
 		fprintf(stderr, "Failed to open the serial port\n");
 		return -1;
 	}
@@ -36,10 +37,33 @@ int main(int argc, char **argv) {
 		fprintf(stderr, "Failed to get port attributes\n");
 		return -1;
 	}
-	options.c_cflag = B9600 | CS8 | CLOCAL | CREAD;
-	options.c_iflag = IGNPAR; // Ignore parity errors
-	options.c_oflag = 0; // Don't set output flags
-	options.c_lflag = 0; // Don't set local flags
+
+	/* Set control mode flags */
+	options.c_cflag |= B9600; // Set Baud rate to 9600
+	options.c_cflag |= CS8; // Set number of data bytes to 8
+	options.c_cflag |= CLOCAL; // Disable modem-specific signals
+	options.c_cflag |= CREAD; // Allow reading
+	options.c_cflag &= ~PARENB; // Disable parity bit
+	options.c_cflag &= ~CSTOPB; // Disable stop bit
+	options.c_cflag &= ~CSIZE; // Clear all bits that set the data size
+	options.c_cflag &= ~CRTSCTS; // Disable hardware flow control
+
+	/* Set input flags */
+	// options.c_iflag |= IGNPAR; // Ignore parity errors
+	options.c_iflag &= ~(IXON | IXOFF | IXANY); // Disable software flow control
+	options.c_iflag &= ~(IGNBRK | BRKINT | PARMRK | ISTRIP | INLCR | IGNCR | ICRNL); // Disable special handling
+
+	/* Set output flags */
+	// options.c_oflag = 0; // Don't set output flags
+	options.c_oflag &= ~OPOST; // Disable special interpretation of output bytes
+	options.c_oflag &= ~ONLCR; // Disable conversion of newline to CR/LF
+
+	/* Set local flags */
+	// options.c_lflag = 0; // Don't set local flags
+	options.c_lflag &= ~ICANON; // Don't wait for a newline before processing input
+	options.c_lflag &= ~ECHOE; // Disable erasure
+	options.c_lflag &= ~ECHONL; // Disable new-line echo
+	options.c_lflag &= ~ISIG; // Disable interpretation of INTR, QUIT, and SUSP
 
 	/* Apply the settings for the serial port */
 	tcflush(serial_fd, TCIOFLUSH);
