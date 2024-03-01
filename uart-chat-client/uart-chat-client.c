@@ -26,20 +26,18 @@ int main(int argc, char **argv) {
 	struct termios options;
 
 	/* If opening the serial port failed */
-	// if ( (serial_fd = open(serial_dev_path, O_RDWR | O_NDELAY | O_NOCTTY)) < 0) {
-	if ( (serial_fd = open(serial_dev_path, O_RDWR)) < 0) {
+	if ( (serial_fd = open(serial_dev_path, O_RDWR | O_NDELAY | O_NOCTTY | O_SYNC)) < 0) {
 		fprintf(stderr, "Failed to open the serial port\n");
 		return -1;
 	}
 
 	/* Set the settings for the serial port */
 	if (0 != tcgetattr(serial_fd, &options)) {
-		fprintf(stderr, "Failed to get port attributes\n");
+		fprintf(stderr, "Failed to get term attributes\n");
 		return -1;
 	}
 
 	/* Set control mode flags */
-	options.c_cflag |= B9600; // Set Baud rate to 9600
 	options.c_cflag |= CS8; // Set number of data bytes to 8
 	options.c_cflag |= CLOCAL; // Disable modem-specific signals
 	options.c_cflag |= CREAD; // Allow reading
@@ -65,10 +63,14 @@ int main(int argc, char **argv) {
 	options.c_lflag &= ~ECHONL; // Disable new-line echo
 	options.c_lflag &= ~ISIG; // Disable interpretation of INTR, QUIT, and SUSP
 
+	/* Set input/output baud rates */
+	cfsetispeed(&options, B9600);
+	cfsetospeed(&options, B9600);
+
 	/* Apply the settings for the serial port */
 	tcflush(serial_fd, TCIOFLUSH);
 	if (0 != tcsetattr(serial_fd, TCSANOW, &options)) {
-		fprintf(stderr, "Failed to set port attributes\n");
+		fprintf(stderr, "Failed to set term attributes\n");
 		return -1;
 	}
 
