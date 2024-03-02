@@ -1,4 +1,3 @@
-
 ## Setup
 
 Before you can use the GPIO pins for serial port use, we must first change
@@ -41,4 +40,12 @@ Then, on the raspberry pi, run:
 sudo ./uart-chat-client /dev/serial0
 ```
 
-The two terminals should now be able to communicate by typing arbitrary data and hitting enter :)
+The two terminals should now be able to communicate by typing arbitrary data
+and hitting enter :)
+
+**Note:** to avoid the use of `sudo` in these commands, we need only add our
+user to the `dialout` group:
+
+```bash
+sudo usermod -a -G dialout <username>
+```
