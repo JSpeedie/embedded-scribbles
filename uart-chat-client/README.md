@@ -30,6 +30,8 @@ A restart will likely be required.
 On the computer the usb side of the usb-to-uart adapter is connected to, run:
 
 ```bash
+sudo ./uart-chat-client /dev/ttyUSB0
+# Or alternatively, we could use a different emulator
 sudo screen /dev/ttyUSB0 9600
 ```
 
@@ -38,3 +40,5 @@ Then, on the raspberry pi, run:
 ```bash
 sudo ./uart-chat-client /dev/serial0
 ```
+
+The two terminals should now be able to communicate by typing arbitrary data and hitting enter :)
