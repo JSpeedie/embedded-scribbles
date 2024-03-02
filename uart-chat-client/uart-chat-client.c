@@ -41,27 +41,19 @@ int main(int argc, char **argv) {
 	options.c_cflag |= CS8; // Set number of data bytes to 8
 	options.c_cflag |= CLOCAL; // Disable modem-specific signals
 	options.c_cflag |= CREAD; // Allow reading
-	options.c_cflag &= ~PARENB; // Disable parity bit
-	options.c_cflag &= ~CSTOPB; // Disable stop bit
-	options.c_cflag &= ~CSIZE; // Clear all bits that set the data size
-	options.c_cflag &= ~CRTSCTS; // Disable hardware flow control
 
 	/* Set input flags */
-	// options.c_iflag |= IGNPAR; // Ignore parity errors
-	options.c_iflag &= ~(IXON | IXOFF | IXANY); // Disable software flow control
-	options.c_iflag &= ~(IGNBRK | BRKINT | PARMRK | ISTRIP | INLCR | IGNCR | ICRNL); // Disable special handling
+	options.c_iflag |= IGNPAR; // Ignore parity errors
 
 	/* Set output flags */
-	// options.c_oflag = 0; // Don't set output flags
-	options.c_oflag &= ~OPOST; // Disable special interpretation of output bytes
-	options.c_oflag &= ~ONLCR; // Disable conversion of newline to CR/LF
+	options.c_oflag = 0; // Don't set output flags
 
 	/* Set local flags */
-	// options.c_lflag = 0; // Don't set local flags
-	options.c_lflag &= ~ICANON; // Don't wait for a newline before processing input
-	options.c_lflag &= ~ECHOE; // Disable erasure
-	options.c_lflag &= ~ECHONL; // Disable new-line echo
-	options.c_lflag &= ~ISIG; // Disable interpretation of INTR, QUIT, and SUSP
+	options.c_lflag = 0; // Don't set local flags
+
+	// 1 byte at a time, no timer
+	options.c_cc[VMIN] = 1;
+	options.c_cc[VTIME] = 0;
 
 	/* Set input/output baud rates */
 	cfsetispeed(&options, B9600);
@@ -78,18 +70,6 @@ int main(int argc, char **argv) {
 	fd_set wset;
 	fd_set rset;
 	int maxfd;
-
-
-	/* NOT working on receiving end (usb side of usb-uart adapter)
-	 * idea: download gnu screen, grep -R "word" . the repo searching for
-	 * similar code and then seeing what they do?
-	 */
-	/* b screen.c:909
-	 * Perhaps
-	 * fcntl(0, F_GETFL, 0); ? as in screen.c:730
-	 * Perhaps
-	 * tcgetattr() to automatically get the stuff?
-	 */
 
 	/* select() initialization */
 	FD_ZERO(&wset);
@@ -115,7 +95,9 @@ int main(int argc, char **argv) {
 				fprintf(stderr, "Failed to read message!\n");
 			} else {
 				// recv_msg[recv_msg_len] = '\0';
-				fprintf(stdout, "%s", recv_msg);
+				for (int i = 0; i < recv_msg_len; i++) {
+					fprintf(stdout, "%c", recv_msg[i]);
+				}
 				/* Without a newline character, it is unlikely stdout will be
 				 * flushed for this message, so manually flush */
 				fflush(stdout);
