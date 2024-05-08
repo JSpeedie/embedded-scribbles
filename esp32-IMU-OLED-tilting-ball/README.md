@@ -17,17 +17,49 @@ I used the ESP IDF for development of this project. In order to recreate
 this example project, you will have to install the ESP IDF as explained at
 [https://docs.espressif.com/projects/esp-idf/en/stable/esp32/get-started/linux-macos-setup.html](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/get-started/linux-macos-setup.html)
 
-Once you've set it up, all you need to do for development (after making the
-necessary hardware connections, of course) is:
+Once you've set it up (as well as made the necessary hardware connections) you need to...
+
+#### 1. Install the Tilting Ball Project
 
 ```bash
 git clone git@github.com:JSpeedie/embedded-scribbles.git embedded-scribblesGit
 cd ~/esp/esp-idf
-get_idf
 mkdir projects
-cd projects
-cp -r ~/embedded-scribblesGit/esp32-IMU-OLED-tilting-ball projects/tilting-ball
-cd tilting-ball
+```
+
+The tilting ball project is dependent on 2 libraries however, so we need
+to install those too before we can compile and run the project.
+
+#### 2. Install the Components Libraries
+
+To install the libraries, follow these 2 series of commands:
+
+```bash
+cd
+git clone git@github.com:JSpeedie/ESP32-I2C-LSM6DSOX-LIS3MDL-Library.git ESP32-I2C-LSM6DSOX-LIS3MDL-LibraryGit
+mkdir ~/esp/esp-idf/projects/esp32-IMU-OLED-tilting-ball/components
+cp -r ESP32-I2C-LSM6DSOX-LIS3MDL-LibraryGit/components/esp32-i2c-lsm6dsox-lis3mdl/ ~/esp/esp-idf/esp32-IMU-OLED-tilting-ball/components/esp32-i2c-lsm6dsox-lis3mdl/
+```
+
+```bash
+cd
+git clone git@github.com:JSpeedie/ESP32-SPI-SSD1327-Library.git ESP32-SPI-SSD1327-LibraryGit
+mkdir ~/esp/esp-idf/projects/esp32-IMU-OLED-tilting-ball/components
+cp -r ESP32-SPI-SSD1327-LibraryGit/components/esp32-spi-ssd1327/ ~/esp/esp-idf/esp32-IMU-OLED-tilting-ball/components/esp32-spi-ssd1327/
+```
+
+Tada! You should have both libraries installed for your project now.
+
+#### 3. Compiling and Running
+
+After installing the project and the libraries it depends on (and making the
+hardware connections. See below), we are finally ready to compile and run the
+project:
+
+```bash
+cd ~/esp/esp-idf
+get_idf
+cd projects/tilting-ball
 idf.py -p /dev/ttyUSB0 flash monitor
 ```
 
