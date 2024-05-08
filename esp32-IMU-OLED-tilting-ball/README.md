@@ -25,6 +25,7 @@ Once you've set it up (as well as made the necessary hardware connections) you n
 git clone git@github.com:JSpeedie/embedded-scribbles.git embedded-scribblesGit
 cd ~/esp/esp-idf
 mkdir projects
+cp -r ~/embedded-scribblesGit/esp32-IMU-OLED-tilting-ball/ projects/tilting-ball
 ```
 
 The tilting ball project is dependent on 2 libraries however, so we need
@@ -37,15 +38,15 @@ To install the libraries, follow these 2 series of commands:
 ```bash
 cd
 git clone git@github.com:JSpeedie/ESP32-I2C-LSM6DSOX-LIS3MDL-Library.git ESP32-I2C-LSM6DSOX-LIS3MDL-LibraryGit
-mkdir ~/esp/esp-idf/projects/esp32-IMU-OLED-tilting-ball/components
-cp -r ESP32-I2C-LSM6DSOX-LIS3MDL-LibraryGit/components/esp32-i2c-lsm6dsox-lis3mdl/ ~/esp/esp-idf/esp32-IMU-OLED-tilting-ball/components/esp32-i2c-lsm6dsox-lis3mdl/
+mkdir ~/esp/esp-idf/projects/tilting-ball/components
+cp -r ESP32-I2C-LSM6DSOX-LIS3MDL-LibraryGit/components/esp32-i2c-lsm6dsox-lis3mdl/ ~/esp/esp-idf/projects/tilting-ball/components/esp32-i2c-lsm6dsox-lis3mdl/
 ```
 
 ```bash
 cd
 git clone git@github.com:JSpeedie/ESP32-SPI-SSD1327-Library.git ESP32-SPI-SSD1327-LibraryGit
-mkdir ~/esp/esp-idf/projects/esp32-IMU-OLED-tilting-ball/components
-cp -r ESP32-SPI-SSD1327-LibraryGit/components/esp32-spi-ssd1327/ ~/esp/esp-idf/esp32-IMU-OLED-tilting-ball/components/esp32-spi-ssd1327/
+mkdir ~/esp/esp-idf/projects/tilting-ball/components
+cp -r ESP32-SPI-SSD1327-LibraryGit/components/esp32-spi-ssd1327/ ~/esp/esp-idf/projects/tilting-ball/components/esp32-spi-ssd1327/
 ```
 
 Tada! You should have both libraries installed for your project now.
