@@ -36,7 +36,7 @@ idf.py -p /dev/ttyUSB0 flash monitor
 Below is the schematic I used for the example program.
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/wiki/JSpeedie/embedded-scribbles/images/ESP32-Tilting-Ball" width="50%"/>
+  <img src="https://raw.githubusercontent.com/wiki/JSpeedie/embedded-scribbles/images/ESP32-Tilting-Ball.png" width="50%"/>
 </p>
 
 Of course you will also need to connect a micro usb to usb cable between the
