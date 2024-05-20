@@ -20,9 +20,9 @@ jumpers are connected in 3.3V mode if you are debugging the ESP32.
 Next, you need to connect your ESP-Prog to the ESP32 you wish to debug. Here is
 a schematic for how I connected mine.
 
-<!-- <p align="center"> -->
-<!--   <img src="https://raw.githubusercontent.com/wiki/JSpeedie/embedded-scribbles/images/ESP32-Tilting-Ball.png" width="50%"/> -->
-<!-- </p> -->
+<p align="center">
+  <img src="https://raw.githubusercontent.com/wiki/JSpeedie/embedded-scribbles/images/ESP32-ESP-Prog.png" width="50%"/>
+</p>
 
 Both the ESP32 and the ESP-Prog should be connected to your development
 computer by 2 separate micro-usb to usb cables.
