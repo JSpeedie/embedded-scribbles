@@ -38,6 +38,7 @@ Further, if you are using a non-ESP-Prog JTAG debugger, you may want to refer to
 to see what JTAG pin of your debugger should be connected to which GPIO pin of
 the ESP32.
 
+&nbsp;
 
 ## 2. OpenOCD
 
@@ -69,6 +70,7 @@ openocd -f interface/ftdi/esp32_devkitj_v1.cfg -f target/esp32.cfg
 For further reading on this part of the process,
 [refer to the section on configuring OpenOCD for a specific target](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-guides/jtag-debugging/tips-and-quirks.html#configuration-of-openocd-for-specific-target)
 
+&nbsp;
 
 ## 3. GDB
 
@@ -108,10 +110,39 @@ get_idf
 xtensa-esp32-elf-gdb -x gdbinit build/blink.elf
 ```
 
+&nbsp;
 
+## 4. Conclusion
 
+Once you have completed this process once (in particular, once you have
+completed steps 1.1, 1.2, 1.3, and 3.1), then all you need to debug your board
+is the following:
 
+### 4.1 A terminal for flashing the board
 
+```bash
+cd ~/esp/esp-idf/
+get_idf
+cd [your project name/path here]
+idf.py -p /dev/ttyUSB0 flash monitor
+```
+
+### 4.2 A terminal for openocd
+
+```bash
+cd ~/esp/esp-idf/
+get_idf
+openocd -f interface/ftdi/esp32_devkitj_v1.cfg -f target/esp32.cfg
+```
+
+### 4.3 A terminal for gdb
+
+```bash
+cd ~/esp/esp-idf/
+get_idf
+cd [your project name/path here]
+xtensa-esp32-elf-gdb -x gdbinit build/[name of your project].elf
+```
 
 
 
