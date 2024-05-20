@@ -21,7 +21,7 @@ Next, you need to connect your ESP-Prog to the ESP32 you wish to debug. Here is
 a schematic for how I connected mine.
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/wiki/JSpeedie/embedded-scribbles/images/ESP32-ESP-Prog.png" width="50%"/>
+  <img src="https://raw.githubusercontent.com/wiki/JSpeedie/embedded-scribbles/images/ESP32-ESP-Prog.png" width="30%"/>
 </p>
 
 Both the ESP32 and the ESP-Prog should be connected to your development
