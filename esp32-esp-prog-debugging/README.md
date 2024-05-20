@@ -32,6 +32,12 @@ computer by 2 separate micro-usb to usb cables.
 Even though you are on Linux, you will need to configure the drivers. You can
 refer to
 [the simple instructions on configuring the drivers](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-guides/jtag-debugging/configure-other-jtag.html#configure-drivers).
+Don't forget to reload the udev rules after using the following commands:
+
+```bash
+sudo udevadm control --reload-rules
+sudo udevadm trigger
+```
 
 Further, if you are using a non-ESP-Prog JTAG debugger, you may want to refer to
 [the section on configuring other JTAG interfaces](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-guides/jtag-debugging/configure-other-jtag.html#configure-hardware)
